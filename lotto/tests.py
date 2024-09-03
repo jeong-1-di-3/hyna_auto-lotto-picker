@@ -1,3 +1,10 @@
 from django.test import TestCase
+from .models import GuessNumbers
+class GuessNumbersTestCase(TestCase):
+    def test_generate(self):
+        g = GuessNumbers(name='Test numbers', text='selected numbers')
+        g.generate()
+        print(g.update_date)
+        print(g.lottos)
 
-# Create your tests here.
+        self.assertTrue(len(g.lottos) > 20)
