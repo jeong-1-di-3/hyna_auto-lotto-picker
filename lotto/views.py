@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from .models import GuessNumbers
 from lotto.forms import PostForm
@@ -11,5 +11,15 @@ def hello(request) :
     return HttpResponse('<h1 style="color:red;">Hello world!</h1>')
 
 def post(request) :
-    form = PostForm()
-    return render(request, "lotto/form.html", {"form":form})
+
+    if request.method == 'POST' :
+        form = PostForm(request.POST)
+        if form.is_valid() :
+            lotto = form.save(commit = False)
+            print(type(lotto))
+            print(lotto)
+            lotto.generate()
+            return redirect('index')
+    else :
+        form = PostForm()
+        return render(request, "lotto/form.html", {"form":form})
