@@ -11,7 +11,6 @@ def hello(request) :
     return HttpResponse('<h1 style="color:red;">Hello world!</h1>')
 
 def post(request) :
-
     if request.method == 'POST' :
         form = PostForm(request.POST)
         if form.is_valid() :
@@ -23,3 +22,7 @@ def post(request) :
     else :
         form = PostForm()
         return render(request, "lotto/form.html", {"form":form})
+    
+def detail(request, lottokey) :
+    lotto = GuessNumbers.objects.get(pk = lottokey)
+    return render(request, "lotto/detail.html", {"lotto": lotto})
